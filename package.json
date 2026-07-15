@@ -1,0 +1,25 @@
+{
+  "name": "qa_testing",
+  "version": "1.0.0",
+  "description": "\"# VJA_Store_Testing\"",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adelinprelipcean/VJA_Store_Testing.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adelinprelipcean/VJA_Store_Testing/issues"
+  },
+  "homepage": "https://github.com/adelinprelipcean/VJA_Store_Testing#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "@types/node": "^26.1.1"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2"
+  }
+}
