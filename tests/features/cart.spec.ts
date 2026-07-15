@@ -24,7 +24,10 @@ test.describe('Cart & Checkout', () => {
   });
 
   test('[C56] added product appears in the cart', async ({ page }) => {
+    const startCount = Number(await page.getByTestId('cart-count').innerText());
+
     await page.getByTestId('add-to-cart-btn').first().click();
+    await expect(page.getByTestId('cart-count')).toHaveText(String(startCount + 1));
 
     await page.getByTestId('cart-link').click();
     await expect(page).toHaveURL(/cart/);
@@ -33,8 +36,10 @@ test.describe('Cart & Checkout', () => {
 
   // TestRail C57
   test('[C57] user can complete checkout', async ({ page }) => {
+    const startCount = Number(await page.getByTestId('cart-count').innerText());
+
     await page.getByTestId('add-to-cart-btn').first().click();
-    await expect(page.getByTestId('cart-count')).not.toHaveText('0');
+    await expect(page.getByTestId('cart-count')).toHaveText(String(startCount + 1));
 
     await page.getByTestId('cart-link').click();
     await page.getByTestId('checkout-btn').click();

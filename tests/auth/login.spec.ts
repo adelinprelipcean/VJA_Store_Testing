@@ -54,3 +54,24 @@ test.describe('Login', () => {
   });
 
 });
+
+test.describe('Logout', () => {
+
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/login');
+    await page.getByTestId('login-email-input').fill('e2e@test.com');
+    await page.getByTestId('login-password-input').fill('123456');
+    await page.getByTestId('login-btn').click();
+    await page.waitForURL((url) => !url.pathname.includes('/login'));
+  });
+
+  // TestRail C51
+  test('[C51] logout then browser back does not restore the session', async ({ page }) => {
+    await page.getByTestId('logout-btn').click();
+    await expect(page).toHaveURL(/login/);
+
+    await page.goBack();
+    await expect(page).toHaveURL(/login/);
+  });
+
+});
