@@ -1,12 +1,12 @@
 import { test, expect } from '@playwright/test';
+import { LoginPage } from '../../pages/LoginPage';
 
 test.describe('Favorites', () => {
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/login');
-    await page.getByTestId('login-email-input').fill('e2e@test.com');
-    await page.getByTestId('login-password-input').fill('123456');
-    await page.getByTestId('login-btn').click();
+    const loginPage = new LoginPage(page);
+    await loginPage.goto();
+    await loginPage.login('e2e@test.com', '123456');
     await page.waitForURL((url) => !url.pathname.includes('/login'));
 
     await page.goto('/products');
