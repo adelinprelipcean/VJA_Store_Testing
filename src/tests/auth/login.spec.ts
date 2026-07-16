@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
+import { test as authTest } from '../../fixtures/auth.fixture';
 import { LoginPage } from '../../pages/LoginPage';
+import { NavbarPage } from '../../pages/NavbarPage';
 
 test.describe('Login', () => {
 
@@ -58,18 +60,13 @@ test.describe('Login', () => {
 
 });
 
-test.describe('Logout', () => {
-
-  test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.goto();
-    await loginPage.login('e2e@test.com', '123456');
-    await page.waitForURL((url) => !url.pathname.includes('/login'));
-  });
+authTest.describe('Logout', () => {
 
   // TestRail C51
-  test('[C51] logout then browser back does not restore the session', async ({ page }) => {
-    await page.getByTestId('logout-btn').click();
+  authTest('[C51] logout then browser back does not restore the session', async ({ page }) => {
+    const navbar = new NavbarPage(page);
+
+    await navbar.logout();
     await expect(page).toHaveURL(/login/);
 
     await page.goBack();

@@ -1,31 +1,28 @@
-import { test, expect } from '@playwright/test';
-import { LoginPage } from '../../pages/LoginPage';
+import { test, expect } from '../../fixtures/auth.fixture';
+import { ProductsPage } from '../../pages/ProductsPage';
+import { NavbarPage } from '../../pages/NavbarPage';
 
 test.describe('Favorites', () => {
 
-  test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.goto();
-    await loginPage.login('e2e@test.com', '123456');
-    await page.waitForURL((url) => !url.pathname.includes('/login'));
-
-    await page.goto('/products');
-    await page.getByTestId('product-card').first().waitFor();
-  });
-
   // TestRail C58
   test('[C58] user can add an item to favorites', async ({ page }) => {
-    const favoriteBtn = page.getByTestId('favorite-btn').first();
-    const productName = await page.getByTestId('product-link').first().getAttribute('aria-label');
-    if ((await favoriteBtn.getAttribute('data-active')) === 'true') {
-      await favoriteBtn.click();
-      await expect(favoriteBtn).toHaveAttribute('data-active', 'false');
+    const productsPage = new ProductsPage(page);
+    const navbar = new NavbarPage(page);
+
+    const card = productsPage.getCard(0);
+    const productName = await productsPage.getCardName(card);
+
+    // A previous run may have left this product favorited on the shared
+    // demo account — start from a known "not favorited" state.
+    if (await productsPage.isFavorited(card)) {
+      await productsPage.toggleFavorite(card);
+      expect(await productsPage.isFavorited(card)).toBe(false);
     }
 
-    await favoriteBtn.click();
-    await expect(favoriteBtn).toHaveAttribute('data-active', 'true');
+    await productsPage.toggleFavorite(card);
+    expect(await productsPage.isFavorited(card)).toBe(true);
 
-    await page.getByTestId('favorites-link').click();
+    await navbar.goToFavorites();
     await expect(page).toHaveURL(/favorites/);
     await expect(page.getByRole('link', { name: productName ?? '' }).first()).toBeVisible();
   });
