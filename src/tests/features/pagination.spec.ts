@@ -40,9 +40,6 @@ test.describe('Pagination', () => {
   });
 
   // TestRail C66
-  // Note: the catalog has 500 products, which isn't itself a multiple of 12
-  // (that part of the original TestRail precondition doesn't hold), but every
-  // page before the last one should still be a full page of 12 items.
   test('[C66] full pages display exactly 12 products', async ({ page }) => {
     const productsPage = new ProductsPage(page);
 
@@ -91,7 +88,7 @@ test.describe('Pagination', () => {
   test('[C69] clicking a page number navigates directly and survives Back navigation', async ({ page }) => {
     const productsPage = new ProductsPage(page);
 
-    await productsPage.goToNextPage(); // reveals the "Go to page 3" button
+    await productsPage.goToNextPage();
     await productsPage.goToPage(3);
     await expect(productsLocators(page).pageInfo()).toHaveText('Page 3 of 42');
 

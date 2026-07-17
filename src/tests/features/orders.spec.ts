@@ -4,11 +4,7 @@ import { CartPage } from '../../pages/CartPage';
 import { NavbarPage } from '../../pages/NavbarPage';
 import { OrdersPage } from '../../pages/OrdersPage';
 
-// TestRail C62 ("Total Price Accuracy with Discounts") is not covered here —
-// the checkout flow has no discount-code input, so that feature doesn't
-// exist in this app yet. Flagged for the mentor rather than automated.
-
-test.describe('Orders', () => {
+  test.describe('Orders', () => {
   test.describe.configure({ mode: 'serial' });
 
   // TestRail C59

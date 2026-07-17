@@ -7,9 +7,6 @@ export const productsLocators = (page: Page) => ({
         page.getByTestId('product-card').filter({ hasText: 'Out of stock' }),
     cardProductLink: (card: Locator) =>
         card.getByTestId('product-link'),
-    // Accessible name changes to "Out of stock" when disabled, so a role+name
-    // locator can't reliably find this button in both states — testid is the
-    // stable choice here.
     cardAddToCartBtn: (card: Locator) =>
         card.getByTestId('add-to-cart-btn'),
     cardFavoriteBtn: (card: Locator) =>

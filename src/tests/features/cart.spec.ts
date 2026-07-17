@@ -1,9 +1,14 @@
 import { test, expect } from '../../fixtures/auth.fixture';
 import { CartPage } from '../../pages/CartPage';
 import { cartLocators } from '../../locators/cart.locators';
+import { clearCart } from '../../utils/cleanup';
 
 test.describe('Cart & Checkout', () => {
   test.describe.configure({ mode: 'serial' });
+  
+  test.afterEach(async ({ page }) => {
+    await clearCart(page.request);
+  });
 
   // TestRail C56
   test('[C56] user can add a product to the cart', async ({ page }) => {
